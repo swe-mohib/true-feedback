@@ -46,9 +46,7 @@ export default function SignInForm() {
         toast(message);
       }
     }
-    if (result?.url) {
-      router.replace("/dashboard");
-    }
+    router.refresh();
   }
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-800">

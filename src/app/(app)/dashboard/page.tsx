@@ -113,11 +113,29 @@ function UserDashboard() {
   };
 
   return (
-    <div className="h-screen my-8 mx-4 md:mx-8 lg:mx-auto p-6 bg-white rounded w-full max-w-6xl">
+    <div className="min-h-screen my-8 mx-4 md:mx-8 lg:mx-auto p-6 bg-white rounded w-full max-w-6xl">
       <h1 className="text-4xl font-bold mb-4">User Dashboard</h1>
 
       <div className="mb-4">
-        <h2 className="text-lg font-semibold mb-2">Copy Your Unique Link</h2>{" "}
+        <div className="bg-slate-100 mb-5 p-5">
+          <h2 className="mb-2">
+            <span className="font-semibold">Step 1: </span>Copy Your Unique
+            Link.
+          </h2>
+          <h2 className="mb-2">
+            <span className="font-semibold">Step 2: </span>Share unique link,
+            and ask for comments.
+          </h2>
+          <h2 className="mb-2">
+            <span className="font-semibold">Step 3: </span>See their comments
+            here.
+          </h2>
+          <p>
+            Note: The identity of people who comment and provide feedback will
+            remain private. They do not need to log in or share any personal
+            information.
+          </p>
+        </div>
         <div className="flex items-center">
           <input
             type="text"
