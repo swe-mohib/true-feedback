@@ -12,16 +12,18 @@ import {
 import { Input } from "@/components/ui/input";
 import { signInSchema } from "@/schemas/signInSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
 
 export default function SignInForm() {
   const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
@@ -32,21 +34,30 @@ export default function SignInForm() {
   });
 
   async function onSubmit(values: z.infer<typeof signInSchema>) {
-    const result = await signIn("credentials", {
-      redirect: false,
-      identifier: values.identifier,
-      password: values.password,
-    });
+    setIsSubmitting(true);
+    try {
+      const result = await signIn("credentials", {
+        redirect: false,
+        identifier: values.identifier,
+        password: values.password,
+      });
 
-    if (result?.error) {
-      if (result.error === "CredentialsSignin") {
-        toast("Incorrect username or password");
-      } else {
-        const message = result?.error;
-        toast(message);
+      if (result?.error) {
+        if (result.error === "CredentialsSignin") {
+          toast("Incorrect username or password");
+        } else {
+          const message = result?.error;
+          toast(message);
+        }
       }
+      router.refresh();
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Something went wrong.";
+      toast.error(errorMessage);
+    } finally {
+      setIsSubmitting(false);
     }
-    router.refresh();
   }
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-800">
@@ -83,8 +94,15 @@ export default function SignInForm() {
                 </FormItem>
               )}
             />
-            <Button className="w-full" type="submit">
-              Sign In
+            <Button type="submit" className="w-full" disabled={isSubmitting}>
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Please wait
+                </>
+              ) : (
+                "Sign In"
+              )}
             </Button>
           </form>
         </Form>

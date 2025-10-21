@@ -15,7 +15,7 @@ export default function SignInForm() {
     const passwordParam = params?.loginBypass;
     if (!passwordParam) return toast("Something went wrong.");
     const password = decodeURIComponent(passwordParam);
-    const identifier = "admin@gmail.com";
+    const identifier = "google@gmail.com";
 
     const result = await signIn("credentials", {
       redirect: false,
@@ -49,7 +49,7 @@ export default function SignInForm() {
           Home
         </button>
         <h2 className="text-yellow-600 font-medium text-lg">
-          Signing you in as dummy user - Google
+          Signing you in as a temporary user - Google
         </h2>
         <Image src={loading} alt="Loading..." className="w-28 h-auto" />
       </div>
